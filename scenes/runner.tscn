@@ -1,0 +1,136 @@
+[gd_scene load_steps=9 format=3 uid="uid://b1erjy2mxqyq7"]
+
+[ext_resource type="PackedScene" uid="uid://dv171qrn86w2b" path="res://scenes/player/player.tscn" id="1_y21ji"]
+[ext_resource type="Texture2D" uid="uid://dnow30vv77blv" path="res://assets/kenney_new-platformer-pack-1.0/Sprites/Backgrounds/Default/background_solid_dirt.png" id="2_0q11q"]
+[ext_resource type="Script" uid="uid://caqhp1bnhr252" path="res://scenes/fall_hazard/fall_hazard.gd" id="4_5qbmg"]
+[ext_resource type="PackedScene" uid="uid://bjfedcnod35or" path="res://scenes/bee/bee.tscn" id="5_a6sfn"]
+[ext_resource type="Script" uid="uid://diaovkukq6llg" path="res://scenes/goal.gd" id="5_ouwii"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5qbmg"]
+size = Vector2(1179, 244)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_y21ji"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_a6sfn"]
+normal = Vector2(-1, 0)
+
+[node name="Runner" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(152, 344)
+limit_left = 0
+limit_bottom = 648
+drag_vertical_enabled = true
+drag_top_margin = 0.6
+drag_bottom_margin = 0.6
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Player" parent="." instance=ExtResource("1_y21ji")]
+position = Vector2(152, 344)
+collision_mask = 2
+speed = 500.0
+jump_velocity = -600.0
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../Camera2D")
+update_rotation = false
+update_scale = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-2, 462)
+collision_layer = 2
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+scale = Vector2(4.58203, 1)
+texture = ExtResource("2_0q11q")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(579.5, 121)
+shape = SubResource("RectangleShape2D_5qbmg")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(1326, 465)
+collision_layer = 2
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+scale = Vector2(4.58203, 1)
+texture = ExtResource("2_0q11q")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(579.5, 121)
+shape = SubResource("RectangleShape2D_5qbmg")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(2688, 465)
+collision_layer = 2
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]
+scale = Vector2(4.58203, 1)
+texture = ExtResource("2_0q11q")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(579.5, 121)
+shape = SubResource("RectangleShape2D_5qbmg")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2(4003, 465)
+collision_layer = 2
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D4"]
+scale = Vector2(4.58203, 1)
+texture = ExtResource("2_0q11q")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+position = Vector2(579.5, 121)
+shape = SubResource("RectangleShape2D_5qbmg")
+
+[node name="FallHazard" type="Area2D" parent="."]
+position = Vector2(0, 627)
+collision_layer = 0
+script = ExtResource("4_5qbmg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FallHazard"]
+position = Vector2(1250, 35)
+shape = SubResource("WorldBoundaryShape2D_y21ji")
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Bee" parent="Enemies" instance=ExtResource("5_a6sfn")]
+position = Vector2(2080, 447)
+
+[node name="Bee2" parent="Enemies" instance=ExtResource("5_a6sfn")]
+position = Vector2(1685, 450)
+
+[node name="Bee3" parent="Enemies" instance=ExtResource("5_a6sfn")]
+position = Vector2(683, 457)
+
+[node name="Bee4" parent="Enemies" instance=ExtResource("5_a6sfn")]
+position = Vector2(2924, 446)
+
+[node name="Bee5" parent="Enemies" instance=ExtResource("5_a6sfn")]
+position = Vector2(3482, 450)
+
+[node name="Bee6" parent="Enemies" instance=ExtResource("5_a6sfn")]
+position = Vector2(4290, 423)
+
+[node name="Bee7" parent="Enemies" instance=ExtResource("5_a6sfn")]
+position = Vector2(4290, 187)
+
+[node name="Goal" type="Area2D" parent="."]
+position = Vector2(4751, 358)
+collision_layer = 0
+script = ExtResource("5_ouwii")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal"]
+shape = SubResource("WorldBoundaryShape2D_a6sfn")
+
+[connection signal="body_entered" from="Goal" to="Goal" method="_on_body_entered"]
